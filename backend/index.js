@@ -1,9 +1,14 @@
+const dotenv = require("dotenv");
+dotenv.config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const crypto = require("crypto");
 const { UrlModel } = require("./db/schema");
 const { error } = require("console");
+
+const port = process.env.PORT;
+const mongoUri = process.env.MONGO_URI;
 
 const app = express();
 main();
@@ -59,10 +64,8 @@ app.get("/:shorturl", async function (req, res) {
 });
 
 async function main() {
-  await mongoose.connect(
-    "mongodb+srv://RohithRao:ZTiE4bHT2SDZKx0c@cluster0.nlgna.mongodb.net/url_shortener"
-  );
-  app.listen(3000, function (err) {
+  await mongoose.connect(mongoUri);
+  app.listen(port, function (err) {
     if (err) console.log(error);
     console.log("listening on port 3000");
   });
